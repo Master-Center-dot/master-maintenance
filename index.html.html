@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مركز ماستر - صيانة الأجهزة الكهربائية والمبيعات</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font Cairo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                    },
+                    colors: {
+                        masterBlue: '#0f172a',
+                        masterGold: '#f59e0b',
+                        masterLight: '#f8fafc',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Cairo', sans-serif; }
+        .fade-in { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse-slow {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .pulse-btn { animation: pulse-slow 2.5s infinite ease-in-out; }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col selection:bg-amber-500 selection:text-white">
+
+    <!-- Top Announcement Bar -->
+    <div id="announcementBar" class="bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-slate-950 px-4 py-2.5 text-center text-xs sm:text-sm font-bold shadow-inner flex items-center justify-center gap-2">
+        <i class="fa-solid fa-bullhorn text-slate-900 animate-bounce"></i>
+        <span id="announcementText">مرحباً بكم في مركز ماستر لصيانة الأجهزة الكهربائية - الجبل الأصفر، شارع حرس الحدود</span>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-50 bg-slate-900 text-white shadow-xl border-b border-slate-800 backdrop-blur-md bg-slate-900/95">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo & Brand -->
+                <div class="flex items-center gap-3 cursor-pointer group" onclick="switchPage('home')">
+                    <div class="bg-gradient-to-tr from-amber-500 to-amber-400 text-slate-950 p-3 rounded-2xl font-black text-2xl shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform flex items-center justify-center">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl sm:text-2xl font-black tracking-wide text-white group-hover:text-amber-400 transition-colors">مركز ماستر</h1>
+                        <p class="text-[11px] sm:text-xs text-amber-400 font-bold tracking-wider">لخدمة وصيانة الأجهزة الكهربائية والمبيعات</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Nav Tabs -->
+                <nav class="hidden lg:flex items-center gap-1">
+                    <button onclick="switchPage('home')" id="nav-home" class="nav-btn px-3.5 py-2 rounded-xl text-sm font-bold transition-all duration-200 text-amber-400 bg-slate-800/90 shadow-sm">الرئيسية</button>
+                    <button onclick="switchPage('about')" id="nav-about" class="nav-btn px-3.5 py-2 rounded-xl text-sm font-bold transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-800">من نحن</button>
+                    <button onclick="switchPage('services')" id="nav-services" class="nav-btn px-3.5 py-2 rounded-xl text-sm font-bold transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-800">خدماتنا والتخصصات</button>
+                    <button onclick="switchPage('store')" id="nav-store" class="nav-btn px-3.5 py-2 rounded-xl text-sm font-bold transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5">
+                        <i class="fa-solid fa-store text-amber-400"></i> مبيعاتنا ومعرضنا
+                    </button>
+                    <button onclick="switchPage('sell')" id="nav-sell" class="nav-btn px-3.5 py-2 rounded-xl text-sm font-bold transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5">
+                        <i class="fa-solid fa-tag text-amber-400"></i> بيع لنا منتجك
+                    </button>
+                    <button onclick="switchPage('reviews')" id="nav-reviews" class="nav-btn px-3.5 py-2 rounded-xl text-sm font-bold transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-800">آراء وتقييمات</button>
+                    <button onclick="switchPage('contact')" id="nav-contact" class="nav-btn px-3.5 py-2 rounded-xl text-sm font-bold transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-800">تواصل والحجز</button>
+                </nav>
+
+                <!-- Admin Panel Button & Mobile Toggle -->
+                <div class="flex items-center gap-3">
+                    <button onclick="openAdminModal()" class="bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black px-4 py-2.5 rounded-xl text-xs sm:text-sm transition-all shadow-md hover:shadow-amber-500/20 flex items-center gap-2 border border-amber-300/30">
+                        <i class="fa-solid fa-gear text-slate-950"></i>
+                        <span id="adminBtnText">لوحة التحكم</span>
+                    </button>
+                    <button onclick="toggleMobileMenu()" class="lg:hidden text-white p-2 rounded-xl hover:bg-slate-800 focus:outline-none transition-colors">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden lg:hidden bg-slate-900 border-t border-slate-800 px-4 pt-3 pb-6 space-y-2 shadow-2xl">
+            <button onclick="switchPage('home'); toggleMobileMenu();" class="block w-full text-right px-4 py-2.5 rounded-xl font-bold text-white hover:bg-slate-800 transition">الرئيسية</button>
+            <button onclick="switchPage('about'); toggleMobileMenu();" class="block w-full text-right px-4 py-2.5 rounded-xl font-bold text-white hover:bg-slate-800 transition">من نحن</button>
+            <button onclick="switchPage('services'); toggleMobileMenu();" class="block w-full text-right px-4 py-2.5 rounded-xl font-bold text-white hover:bg-slate-800 transition">خدماتنا والتخصصات</button>
+            <button onclick="switchPage('store'); toggleMobileMenu();" class="block w-full text-right px-4 py-2.5 rounded-xl font-bold text-amber-400 hover:bg-slate-800 transition"><i class="fa-solid fa-store ml-2"></i> مبيعاتنا ومعرضنا</button>
+            <button onclick="switchPage('sell'); toggleMobileMenu();" class="block w-full text-right px-4 py-2.5 rounded-xl font-bold text-amber-400 hover:bg-slate-700 transition"><i class="fa-solid fa-tag ml-2"></i> بيع لنا منتجك</button>
+            <button onclick="switchPage('reviews'); toggleMobileMenu();" class="block w-full text-right px-4 py-2.5 rounded-xl font-bold text-white hover:bg-slate-800 transition">آراء وتقييمات العملاء</button>
+            <button onclick="switchPage('contact'); toggleMobileMenu();" class="block w-full text-right px-4 py-2.5 rounded-xl font-bold text-white hover:bg-slate-800 transition">تواصل والحجز الفوري</button>
+        </div>
+    </header>
+
+    <!-- Main Content Dynamic Pages -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- ================= PAGE 1: HOME ================= -->
+        <div id="page-home" class="page-content fade-in space-y-16">
+            
+            <!-- Hero Banner -->
+            <div class="relative bg-gradient-to-br from-slate-900 via-slate-850 to-slate-950 text-white rounded-3xl overflow-hidden shadow-2xl p-8 sm:p-12 lg:p-16 flex flex-col lg:flex-row items-center justify-between gap-10 border border-slate-800">
+                <div class="absolute -right-24 -bottom-24 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -left-24 -top-24 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div class="max-w-2xl z-10 space-y-6 text-center lg:text-right">
+                    <span class="inline-flex items-center gap-2 bg-amber-500/15 text-amber-400 font-bold px-4 py-2 rounded-full text-xs sm:text-sm border border-amber-500/30 shadow-sm">
+                        <i class="fa-solid fa-shield-halved text-amber-400"></i> المركز الأول والمعتمد في الجبل الأصفر وكافة المناطق المجاورة
+                    </span>
+                    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-tight">
+                        مركز ماستر لصيانة الأجهزة الكهربائية والمبيعات
+                    </h1>
+                    <p class="text-slate-300 text-base sm:text-lg lg:text-xl leading-relaxed font-normal">
+                        نحن الخبراء المتخصصون في إعادة الحياة لأجهزتك المنزلية بأساليب هندسية متطورة. نوفر صيانة منزلية فورية لجميع الماركات، قطع غيار أصلية 100% مع ضمان معتمد، إلى جانب معرض متكامل لشراء واستبدال الأجهزة الكهربائية بأفضل الأسعار.
+                    </p>
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-4">
+                        <button onclick="switchPage('contact')" class="bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black px-8 py-4 rounded-2xl shadow-xl hover:shadow-amber-500/20 transition-all transform hover:-translate-y-0.5 flex items-center gap-3 text-base pulse-btn">
+                            <i class="fa-solid fa-calendar-check text-xl"></i> احجز موعد صيانة الآن
+                        </button>
+                        <a id="heroWhatsappDirect" href="https://wa.me/201107170977" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-8 py-4 rounded-2xl shadow-xl hover:shadow-emerald-600/20 transition-all transform hover:-translate-y-0.5 flex items-center gap-3 text-base">
+                            <i class="fa-brands fa-whatsapp text-2xl"></i> تواصل عبر الواتساب
+                        </a>
+                        <button onclick="switchPage('sell')" class="bg-slate-800/80 hover:bg-slate-800 text-slate-200 font-bold px-6 py-4 rounded-2xl shadow-lg transition-all border border-slate-700 flex items-center gap-2 text-base">
+                            <i class="fa-solid fa-camera text-amber-400"></i> اعرض جهازك للبيع
+                        </button>
+                    </div>
+                </div>
+
+                <div class="w-full lg:w-1/2 z-10 flex justify-center">
+                    <div class="relative w-full max-w-lg">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-amber-500 to-blue-600 rounded-3xl blur-xl opacity-30 transform rotate-3 scale-95"></div>
+                        <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1000&q=80" alt="صيانة أجهزة منزلية" class="relative rounded-3xl shadow-2xl object-cover w-full h-80 sm:h-96 border-2 border-slate-700/80">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Stats Counter Section -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 bg-white p-8 rounded-3xl shadow-md border border-slate-200/80 text-center">
+                <div class="p-4 border-l border-slate-100 last:border-none space-y-2">
+                    <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center mx-auto font-black text-xl mb-2"><i class="fa-solid fa-wrench"></i></div>
+                    <h3 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">+1,200</h3>
+                    <p class="text-slate-600 font-bold text-sm">جهاز تم صيانته وإصلاحه</p>
+                    <p class="text-xs text-slate-400">بنسبة نجاح وكفاءة 99.8%</p>
+                </div>
+                <div class="p-4 border-l border-slate-100 last:border-none space-y-2">
+                    <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto font-black text-xl mb-2"><i class="fa-solid fa-box-open"></i></div>
+                    <h3 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">100%</h3>
+                    <p class="text-slate-600 font-bold text-sm">قطع غيار أصلية معتمدة</p>
+                    <p class="text-xs text-slate-400">مستوردة ومكفولة بضمان رسمي</p>
+                </div>
+                <div class="p-4 border-l border-slate-100 last:border-none space-y-2">
+                    <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto font-black text-xl mb-2"><i class="fa-solid fa-truck-fast"></i></div>
+                    <h3 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">فورية</h3>
+                    <p class="text-slate-600 font-bold text-sm">سرعة استجابة ووصول</p>
+                    <p class="text-xs text-slate-400">خدمة منزلية في نفس اليوم</p>
+                </div>
+                <div class="p-4 space-y-2">
+                    <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mx-auto font-black text-xl mb-2"><i class="fa-solid fa-file-contract"></i></div>
+                    <h3 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">شهادة</h3>
+                    <p class="text-slate-600 font-bold text-sm">ضمان معتمد على الصيانة</p>
+                    <p class="text-xs text-slate-400">تغطية شاملة لكل عملية إصلاح</p>
+                </div>
+            </div>
+
+            <!-- Features Grid Expansion -->
+            <div class="space-y-6">
+                <div class="text-center max-w-2xl mx-auto space-y-2">
+                    <span class="text-amber-600 font-extrabold text-sm tracking-wider uppercase bg-amber-50 px-4 py-1.5 rounded-full border border-amber-200">لماذا نعتبر الاختيار الأول؟</span>
+                    <h2 class="text-2xl sm:text-4xl font-black text-slate-900">مميزات تجعل مركز ماستر وجهتك الآمنة</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 hover:shadow-xl transition-all duration-300 space-y-4 group">
+                        <div class="w-14 h-14 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-2xl font-black group-hover:bg-amber-500 group-hover:text-slate-950 transition-colors">
+                            <i class="fa-solid fa-house-chimney"></i>
+                        </div>
+                        <h3 class="font-bold text-xl text-slate-900">صيانة منزلية شاملة</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">نقوم بجميع الفحوصات والإصلاحات اللازمة داخل منزلكم دون عناء نقل الأجهزة أو تعريضها للتلف، بوجود أحدث أجهزة التشخيص الرقمي.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 hover:shadow-xl transition-all duration-300 space-y-4 group">
+                        <div class="w-14 h-14 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-2xl font-black group-hover:bg-amber-500 group-hover:text-slate-950 transition-colors">
+                            <i class="fa-solid fa-screwdriver-wrench"></i>
+                        </div>
+                        <h3 class="font-bold text-xl text-slate-900">مهندسون وفنيون خبراء</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">يمتلك طاقمنا الفني خبرات طويلة ممتدة لسنوات في صيانة التعقيدات الكهربائية والدوائر الإلكترونية لأحدث الموديلات العالمية.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 hover:shadow-xl transition-all duration-300 space-y-4 group">
+                        <div class="w-14 h-14 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-2xl font-black group-hover:bg-amber-500 group-hover:text-slate-950 transition-colors">
+                            <i class="fa-solid fa-certificate"></i>
+                        </div>
+                        <h3 class="font-bold text-xl text-slate-900">قطع غيار وضمان كتابي</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">تُركب فقط القطع الأصلية المطابقة لمواصفات المصنع، ونوفر معها شهادة ضمان موثوقة تضمن عدم تكرار العطل مجدداً.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 hover:shadow-xl transition-all duration-300 space-y-4 group">
+                        <div class="w-14 h-14 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-2xl font-black group-hover:bg-amber-500 group-hover:text-slate-950 transition-colors">
+                            <i class="fa-solid fa-hand-holding-dollar"></i>
+                        </div>
+                        <h3 class="font-bold text-xl text-slate-900">بيع وشراء واستبدال</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">نقدم لك أفضل سعر مقابل أجهزتك القديمة أو المستعملة، كما يمكنك تسوق أجهزة مفحوصة ومكفولة من المعرض الخاص بنا.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Featured Services Preview -->
+            <div class="space-y-8 pt-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b pb-4 border-slate-200">
+                    <div>
+                        <span class="text-amber-600 font-extrabold text-xs tracking-wider uppercase">تخصصات الصيانة</span>
+                        <h2 class="text-2xl sm:text-3xl font-black text-slate-900 mt-1">تخصصاتنا الرئيسية في صيانة الأجهزة</h2>
+                    </div>
+                    <button onclick="switchPage('services')" class="text-amber-600 hover:text-amber-700 font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all">
+                        عرض كل التخصصات والخدمات بالتفصيل <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+                </div>
+                <div id="homeServicesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+            <!-- Featured Store Preview -->
+            <div class="bg-slate-900 text-white p-8 sm:p-12 rounded-3xl space-y-8 border border-slate-800 shadow-xl">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b border-slate-800 pb-4">
+                    <div>
+                        <span class="text-amber-400 font-bold text-xs bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">معرض مركز ماستر</span>
+                        <h2 class="text-2xl sm:text-3xl font-black text-white mt-2">أبرز الأجهزة المعروضة للبيع حالياً</h2>
+                    </div>
+                    <button onclick="switchPage('store')" class="text-amber-400 hover:text-amber-300 font-bold text-sm flex items-center gap-2">
+                        زيارة معرض المبيعات بالكامل <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+                </div>
+                <div id="homeStoreGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================= PAGE 2: ABOUT US ================= -->
+        <div id="page-about" class="page-content hidden fade-in space-y-12">
+            <div class="bg-white rounded-3xl p-8 sm:p-12 shadow-sm border border-slate-200 space-y-10">
+                <div class="max-w-4xl space-y-4">
+                    <span class="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1.5 rounded-full border border-amber-200">تعرف علينا عن قرب</span>
+                    <h2 class="text-3xl sm:text-4xl font-black text-slate-900">مركز ماستر - مسيرة التميز والاحترافية في صيانة الأجهزة</h2>
+                    <p class="text-slate-600 leading-relaxed text-base sm:text-lg">
+                        تأسس <strong>مركز ماستر</strong> ليكون العلامة الموثوقة الأولى في منطقة الجبل الأصفر والمناطق المجاورة لها في مجال صيانة وإصلاح كافة الأجهزة المنزلية والكهربائية. نحن نؤمن بأن الجهاز الكهربائي هو الركيزة الأساسية لراحة الأسر في بيوتهم، ولذلك نبذل قصارى جهدنا لتقديم أعلى مستويات الخدمة الهندسية الدقيقة لضمان عودة الأجهزة للعمل بكامل طاقتها وكفاءتها الأصلية.
+                    </p>
+                </div>
+
+                <!-- Strategic Pillar Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
+                        <div class="w-12 h-12 bg-amber-500 text-slate-950 rounded-xl flex items-center justify-center text-xl font-bold">
+                            <i class="fa-solid fa-eye"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-900">رؤيتنا المستقبلية</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">أن نغدو المركز المعتمد والأول في تقديم خدمات الصيانة المتكاملة وتوفير حلول المبيعات والاستبدال الموثوقة على مستوى المحافظة بأعلى معايير الشفافية.</p>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
+                        <div class="w-12 h-12 bg-amber-500 text-slate-950 rounded-xl flex items-center justify-center text-xl font-bold">
+                            <i class="fa-solid fa-bullseye"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-900">رسالتنا السامية</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">توفير راحة البال لعملائنا من خلال الاستجابة الفورية، تقديم أسعار صيانة عادلة ومنافسة، وتوفير القطع الأصلية لحماية الأجهزة من الأعطال المتكررة.</p>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
+                        <div class="w-12 h-12 bg-amber-500 text-slate-950 rounded-xl flex items-center justify-center text-xl font-bold">
+                            <i class="fa-solid fa-heart"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-900">قيمنا الأساسية</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">الأمانة في التشخيص، الأداء المهني رفيع المستوى، الالتزام بالصيانة في المواقيت المحددة، والمتابعة الدورية بعد انتهاء عمليات الإصلاح.</p>
+                    </div>
+                </div>
+
+                <!-- Deep Details Section -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-slate-100">
+                    <div class="space-y-4">
+                        <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-map-location-dot text-amber-500"></i> المقر والنطاق الجغرافي
+                        </h3>
+                        <p class="text-slate-600 leading-relaxed text-sm sm:text-base">
+                            يستقبلكم مركزنا الرئيسي في <strong>الجبل الأصفر - شارع حرس الحدود</strong>. تتيح لنا أسطول سياراتنا الفنية الانتقال السريع والمباشر لكافة الشوارع المجاورة والمدن القريبة لنكون إلى جواركم دائماً في أوقات الطوارئ والأعطال المفاجئة.
+                        </p>
+                    </div>
+                    <div class="space-y-4">
+                        <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-microchip text-amber-500"></i> التجهيزات والأدوات الفنية
+                        </h3>
+                        <p class="text-slate-600 leading-relaxed text-sm sm:text-base">
+                            نمتلك أحدث معدات الكشف عن الأعطال وأجهزة فحص التسريب وغاز الفريون بالليزر، إلى جانب أجهزة القياس الإلكترونية للدوائر الحساسة بكروت التحكم الذكية (Inverter Board).
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Call to Action Banner -->
+                <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-8 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-lg">
+                    <div class="space-y-2 text-center md:text-right">
+                        <h4 class="font-black text-xl text-amber-400">هل تحتاج للاستشارة الفنية أو معاينة جهازك؟</h4>
+                        <p class="text-slate-300 text-sm">مهندسونا مستعدون لمساعدتك عبر الهاتف أو تقديم الزيارة المنزلية فوراً.</p>
+                    </div>
+                    <button onclick="switchPage('contact')" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black px-6 py-3.5 rounded-xl transition shadow-lg whitespace-nowrap">
+                        تواصل وحجز صيانة فورية
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= PAGE 3: SERVICES ================= -->
+        <div id="page-services" class="page-content hidden fade-in space-y-10">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <span class="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1.5 rounded-full border border-amber-200">تخصصات شاملة ودقيقة</span>
+                <h2 class="text-3xl sm:text-4xl font-black text-slate-900">خدمات الصيانة المنزلية المتخصصة</h2>
+                <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                    نغطي جميع أعطال الأجهزة الكهربائية المنزلية بفحص هندسي كامل وبحرفية عالية تضمن أعلى معايير الأمان والسلامة.
+                </p>
+            </div>
+
+            <!-- Full Dynamic Services Grid Expansion -->
+            <div id="fullServicesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-2">
+                <!-- Populated dynamically -->
+            </div>
+
+            <!-- Detailed Repair Workflow Explanation -->
+            <div class="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200 shadow-sm space-y-8">
+                <h3 class="text-2xl font-black text-slate-900 text-center">خطوات وإجراءات طلب خدمة الصيانة لدينا</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="text-center space-y-3 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                        <div class="w-12 h-12 bg-amber-500 text-slate-950 rounded-full flex items-center justify-center font-black text-lg mx-auto shadow">1</div>
+                        <h4 class="font-bold text-base text-slate-900">تلقي الطلب بالحجز</h4>
+                        <p class="text-slate-600 text-xs leading-relaxed">تواصل معنا عبر الهاتف أو الواتساب وتحديد نوع الجهاز ووصف المشكلة.</p>
+                    </div>
+                    <div class="text-center space-y-3 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                        <div class="w-12 h-12 bg-amber-500 text-slate-950 rounded-full flex items-center justify-center font-black text-lg mx-auto shadow">2</div>
+                        <h4 class="font-bold text-base text-slate-900">المعاينة المنزلية</h4>
+                        <p class="text-slate-600 text-xs leading-relaxed">وصول الفني المختص في الموعد المحدد ومعه أجهزة الكشف الإلكتروني الدقيقة.</p>
+                    </div>
+                    <div class="text-center space-y-3 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                        <div class="w-12 h-12 bg-amber-500 text-slate-950 rounded-full flex items-center justify-center font-black text-lg mx-auto shadow">3</div>
+                        <h4 class="font-bold text-base text-slate-900">الإصلاح والتركيب</h4>
+                        <p class="text-slate-600 text-xs leading-relaxed">استبدال القطع التالفة بقطع أصلية جديدة وإعادة ضبط إعدادات الجهاز بكفاءة.</p>
+                    </div>
+                    <div class="text-center space-y-3 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                        <div class="w-12 h-12 bg-amber-500 text-slate-950 rounded-full flex items-center justify-center font-black text-lg mx-auto shadow">4</div>
+                        <h4 class="font-bold text-base text-slate-900">التشغيل وتسليم الضمان</h4>
+                        <p class="text-slate-600 text-xs leading-relaxed">تجربة الجهاز أمام العميل والتأكد التام من عمله وتسليم شهادة الضمان الرسمية.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= PAGE 4: STORE / OUR SALES ================= -->
+        <div id="page-store" class="page-content hidden fade-in space-y-10">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <span class="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1.5 rounded-full border border-amber-200">معرض الأجهزة المتاحة</span>
+                <h2 class="text-3xl sm:text-4xl font-black text-slate-900">مبيعاتنا - أجهزة منزلية مفحوصة ومكفولة</h2>
+                <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                    استكشف تشكيلتنا المتميزة من الأجهزة الكهربائية المعروضة للبيع، والتي خضعت لاختبارات فنية دقيقة لضمان أعلى جودة بأفضل الأسعار المتاحة.
+                </p>
+            </div>
+
+            <!-- Filters Bar UI -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-filter text-amber-500"></i>
+                    <span class="font-bold text-sm text-slate-800">الأجهزة المعروضة المتاحة للبيع والشراء الفوري</span>
+                </div>
+                <div class="text-xs font-semibold text-slate-500">
+                    يمكنك طلب أي جهاز مباشرة وسنوصله لك بضمان المركز.
+                </div>
+            </div>
+
+            <div id="storeProductsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-2">
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+
+        <!-- ================= PAGE 5: SELL PRODUCT ================= -->
+        <div id="page-sell" class="page-content hidden fade-in space-y-10">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1.5 rounded-full border border-emerald-200">خدمة الشراء والبديل</span>
+                <h2 class="text-3xl sm:text-4xl font-black text-slate-900">اعرض جهازك أو منتجك للبيع لدينا</h2>
+                <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                    هل لديك جهاز كهربائي مستعمل، زائد عن حاجتك، أو يتطلب صيانة وتريد بيعه أو استبداله؟ أرفق البيانات والصورة وسنقوم بتقييمه وتقديم العرض المالي الأنسب لك فوراً!
+                </p>
+            </div>
+
+            <div class="max-w-3xl mx-auto bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-slate-200 space-y-6">
+                <!-- Hint Box Header -->
+                <div class="bg-amber-50 border border-amber-200 text-amber-900 p-4 rounded-2xl text-xs sm:text-sm font-bold flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-inner">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-circle-info text-amber-500 text-xl flex-shrink-0"></i>
+                        <span>إذا لم تستطع ارفاق منتجك أو واجهت مشكلة في تحميل الصور، تواصل معنا مباشرة عبر الواتساب.</span>
+                    </div>
+                    <a id="sellDirectWhatsapp" href="https://wa.me/201107170977" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap flex items-center gap-2 shadow transition self-end sm:self-auto">
+                        <i class="fa-brands fa-whatsapp text-base"></i> راسلنا عبر الواتساب
+                    </a>
+                </div>
+
+                <form onsubmit="handleProductSubmission(event)" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-2">اسمك الكريم بالكامل</label>
+                            <input type="text" id="sellerName" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500 transition text-sm" placeholder="أدخل الاسم">
+                        </div>
+                        <div>
+                            <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-2">رقم التواصل (هاتف / واتساب)</label>
+                            <input type="tel" id="sellerPhone" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500 transition text-sm" placeholder="01xxxxxxxxx">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-2">اسم الجهاز / الموديل والنوع</label>
+                            <input type="text" id="productTitle" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500 transition text-sm" placeholder="مثال: ثلاجة توشيبا 14 قدم نLocal">
+                        </div>
+                        <div>
+                            <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-2">حالة الجهاز الحالية</label>
+                            <select id="productCondition" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500 bg-white transition text-sm">
+                                <option value="مستعمل - بحالة جيدة جداً">مستعمل - بحالة جيدة جداً (شغال تمام)</option>
+                                <option value="مستعمل - يحتاج صيانة">مستعمل - يحتاج صيانة / به عطل بسيط</option>
+                                <option value="جديد بالكرتونة">جديد / لم يستعمل إطلاقاً</option>
+                                <option value="تالف / خردة">تالف (قطع غيار)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-2">السعر المطلوب (بالجنيه المصري)</label>
+                            <input type="number" id="productPrice" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500 transition text-sm" placeholder="مثال: 3500">
+                        </div>
+                        <div>
+                            <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-2">العنوان والمنطقة بالتفصيل</label>
+                            <input type="text" id="sellerAddress" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500 transition text-sm" placeholder="مثال: الجبل الأصفر - شارع حرس الحدود">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-2">وصف تفصيلي للجهاز وحالته الفنية</label>
+                        <textarea id="productDesc" rows="3" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500 transition text-sm" placeholder="اذكر مدة الاستخدام، العيوب إن وجدت، سبب البيع..."></textarea>
+                    </div>
+
+                    <!-- Image Upload Dropzone -->
+                    <div>
+                        <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-2">إرفاق صورة واضحة للجهاز</label>
+                        <div class="border-2 border-dashed border-slate-300 rounded-2xl p-6 text-center hover:border-amber-500 transition bg-slate-50 relative cursor-pointer group">
+                            <input type="file" id="productImage" accept="image/*" onchange="previewImage(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                            <div id="uploadPlaceholder" class="space-y-2 pointer-events-none">
+                                <i class="fa-solid fa-cloud-arrow-up text-4xl text-amber-500 group-hover:scale-110 transition-transform"></i>
+                                <p class="text-sm font-bold text-slate-700">اضغط هنا أو اسحب الصورة لرفع صورة الجهاز</p>
+                                <p class="text-xs text-slate-400">يُفضل رفع صورة واضحة ومباشرة لتسهيل التقييم</p>
+                            </div>
+                            <div id="imagePreviewContainer" class="hidden space-y-3 pointer-events-none">
+                                <img id="imagePreview" src="" alt="معاينة المنتج" class="max-h-52 mx-auto rounded-xl object-contain border shadow-sm">
+                                <p class="text-xs text-emerald-600 font-bold"><i class="fa-solid fa-circle-check"></i> تم رفع وتمكين صورة الجهاز بنجاح</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-4 rounded-xl shadow-lg transition duration-200 flex items-center justify-center gap-3 text-base">
+                        <i class="fa-brands fa-whatsapp text-2xl"></i> إرسال تفاصيل العرض عبر الواتساب للإدارة
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ================= PAGE 6: REVIEWS ================= -->
+        <div id="page-reviews" class="page-content hidden fade-in space-y-10">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <span class="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1.5 rounded-full border border-amber-200">آراء وتجارب واقعية</span>
+                <h2 class="text-3xl sm:text-4xl font-black text-slate-900">رأي عملائنا هو رأس مالنا</h2>
+                <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                    نعتز بآراء وتقييمات أهالي الجبل الأصفر والمناطق المجاورة، ونسعى دوماً للارتقاء بدمج الجودة مع السرعة والإنصاف.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-6 lg:sticky lg:top-28">
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-900">أضف تقييمك وتجربتك</h3>
+                        <p class="text-slate-500 text-xs mt-1">شاركتنا صيانة جهازك؟ ننتظر انطباعك الصادق!</p>
+                    </div>
+                    <form onsubmit="handleNewReview(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">الاسم الكريم</label>
+                            <input type="text" id="reviewAuthor" required class="w-full px-3 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500" placeholder="أدخل اسمك">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">التقييم</label>
+                            <select id="reviewRating" class="w-full px-3 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500 bg-white">
+                                <option value="5">⭐⭐⭐⭐⭐ (ممتاز جداً - ننصح به)</option>
+                                <option value="4">⭐⭐⭐⭐ (جيد جداً - خدمة سريعة)</option>
+                                <option value="3">⭐⭐⭐ (جيد)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">تجربتك أو انطباعك</label>
+                            <textarea id="reviewText" rows="3" required class="w-full px-3 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500" placeholder="اكتب تعليقك هنا..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 rounded-xl text-sm transition shadow">نشر التقييم العام</button>
+                    </form>
+                </div>
+
+                <div class="lg:col-span-2 space-y-4">
+                    <div class="flex justify-between items-center border-b pb-3 border-slate-200">
+                        <h3 class="font-bold text-lg text-slate-900">آراء وتقييمات عملاء مركز ماستر</h3>
+                        <span id="reviewsCountBadge" class="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full">0 تقييم</span>
+                    </div>
+                    <div id="dynamicReviewsList" class="space-y-4">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= PAGE 7: CONTACT & BOOKING ================= -->
+        <div id="page-contact" class="page-content hidden fade-in space-y-12">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <span class="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1.5 rounded-full border border-amber-200">اتصل بنا أو احجز الموعد</span>
+                <h2 class="text-3xl sm:text-4xl font-black text-slate-900">قنوات التواصل والحجز المباشر</h2>
+                <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                    نحن متاحون طوال الأسبوع لاستقبال استفساراتكم وحجوزات الصيانة الطارئة والزيارات المنزلية.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Direct Channels Section -->
+                <div class="bg-white rounded-3xl p-8 shadow-sm border border-slate-200 space-y-6">
+                    <div class="border-b pb-4 border-slate-100">
+                        <h3 class="text-xl font-black text-slate-900">معلومات العنوان والتواصل الرسمية</h3>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                            <div class="bg-amber-500 text-slate-950 p-3.5 rounded-2xl text-xl font-bold flex-shrink-0"><i class="fa-solid fa-location-dot"></i></div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 text-base">مقر المركز الرئيسي</h4>
+                                <p class="text-slate-600 text-sm mt-1">الجبل الأصفر - شارع حرس الحدود الرئيسي</p>
+                            </div>
+                        </div>
+
+                        <!-- Whatsapp Block Card -->
+                        <div class="flex items-start gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                            <div class="bg-emerald-600 text-white p-3.5 rounded-2xl text-xl font-bold flex-shrink-0"><i class="fa-brands fa-whatsapp"></i></div>
+                            <div class="flex-grow">
+                                <h4 class="font-bold text-slate-900 text-base">الواتساب الفوري المعتمد</h4>
+                                <p id="displayPhone" class="text-slate-700 text-sm font-bold mt-1" dir="ltr">+20 110 717 0977</p>
+                                <a id="contactWhatsappLinkCard" href="https://wa.me/201107170977" target="_blank" class="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 hover:underline mt-2">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i> فتح شات المحادثة المباشرة
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Telegram Block Card -->
+                        <div class="flex items-start gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                            <div class="bg-sky-500 text-white p-3.5 rounded-2xl text-xl font-bold flex-shrink-0"><i class="fa-brands fa-telegram"></i></div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 text-base">رقم حساب التليجرام</h4>
+                                <p id="displayTelegram" class="text-slate-700 text-sm font-bold mt-1" dir="ltr">01038375150</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Direct Social Buttons -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                        <a id="contactWhatsappBtn" href="https://wa.me/201107170977" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white p-4 rounded-2xl font-bold flex items-center justify-center gap-3 shadow transition">
+                            <i class="fa-brands fa-whatsapp text-2xl"></i> <span>واتساب المباشر</span>
+                        </a>
+                        <a id="contactTelegramBtn" href="https://t.me/+201038375150" target="_blank" class="bg-sky-500 hover:bg-sky-400 text-white p-4 rounded-2xl font-bold flex items-center justify-center gap-3 shadow transition">
+                            <i class="fa-brands fa-telegram text-2xl"></i> <span>التليجرام</span>
+                        </a>
+                        <a id="contactFacebookBtn" href="https://www.facebook.com/share/12EFrz2n6Vv/" target="_blank" class="bg-blue-600 hover:bg-blue-500 text-white p-4 rounded-2xl font-bold flex items-center justify-center gap-3 shadow transition sm:col-span-2">
+                            <i class="fa-brands fa-facebook text-2xl"></i> <span>صفحة الفيسبوك الرسمية (1) Facebook</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Immediate Booking Form -->
+                <div class="bg-white rounded-3xl p-8 shadow-sm border border-slate-200 space-y-6">
+                    <div class="border-b pb-4 border-slate-100">
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full">استجابة فورية</span>
+                        <h3 class="text-xl font-black text-slate-900 mt-2">طلب صيانة منزلية وموعد زيارة</h3>
+                    </div>
+                    <form onsubmit="handleBooking(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-1">الاسم الكريم</label>
+                            <input type="text" id="bookName" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500 transition text-sm" placeholder="أدخل اسمك">
+                        </div>
+                        <div>
+                            <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-1">رقم الهاتف للتواصل</label>
+                            <input type="tel" id="bookPhone" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500 transition text-sm" placeholder="01xxxxxxxx">
+                        </div>
+                        <div>
+                            <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-1">نوع الجهاز المراد صيانته</label>
+                            <select id="bookAppliance" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500 bg-white transition text-sm">
+                                <option value="ثلاجة / ديب فريزر">ثلاجة / ديب فريزر</option>
+                                <option value="غسالة أوتوماتيك / هاف أوتوماتيك">غسالة أوتوماتيك / هاف أوتوماتيك</option>
+                                <option value="تكييف هواء (تبريد / تدفئة)">تكييف هواء (تبريد / تدفئة)</option>
+                                <option value="سخان / بوتاجاز / فرن">سخان / بوتاجاز / فرن غاز أو كهرباء</option>
+                                <option value="أجهزة منزلية أخرى">جهاز كهربائي آخر</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-1">تفاصيل ومظهر العطل</label>
+                            <textarea id="bookDetails" rows="3" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500 transition text-sm" placeholder="اكتب وصفاً موجزاً للمشكلة..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-4 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-base">
+                            <i class="fa-solid fa-paper-plane"></i> إرسال طلب الحجز عبر الواتساب فوراً
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Floating Quick Contact Action Buttons -->
+    <div class="fixed bottom-6 left-6 z-40 flex flex-col gap-3">
+        <a id="floatingPhone" href="tel:+201107170977" class="w-14 h-14 bg-slate-900 hover:bg-slate-800 text-white rounded-full flex items-center justify-center text-xl shadow-2xl transition-all hover:scale-110 border border-slate-700" title="اتصال هاتفي مباشر">
+            <i class="fa-solid fa-phone"></i>
+        </a>
+        <a id="floatingWhatsapp" href="https://wa.me/201107170977" target="_blank" class="w-14 h-14 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full flex items-center justify-center text-2xl shadow-2xl transition-all hover:scale-110 pulse-btn" title="محادثة واتساب مباشرة">
+            <i class="fa-brands fa-whatsapp"></i>
+        </a>
+    </div>
+
+    <!-- Global Footer -->
+    <footer class="bg-slate-900 text-white border-t border-slate-800 mt-20 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-right">
+            <div class="space-y-2">
+                <h3 class="text-xl font-black text-amber-400">مركز ماستر لصيانة الأجهزة والمبيعات</h3>
+                <p class="text-xs sm:text-sm text-slate-400">خدمة وحلول صيانة الأجهزة الكهربائية - الجبل الأصفر، شارع حرس الحدود.</p>
+            </div>
+            <div class="flex items-center gap-4 text-xl">
+                <a id="footerWhatsapp" href="https://wa.me/201107170977" target="_blank" class="w-11 h-11 bg-slate-800 hover:bg-emerald-600 rounded-2xl flex items-center justify-center transition border border-slate-700" title="واتساب"><i class="fa-brands fa-whatsapp"></i></a>
+                <a id="footerTelegram" href="https://t.me/+201038375150" target="_blank" class="w-11 h-11 bg-slate-800 hover:bg-sky-500 rounded-2xl flex items-center justify-center transition border border-slate-700" title="تليجرام"><i class="fa-brands fa-telegram"></i></a>
+                <a id="footerFacebook" href="https://www.facebook.com/share/12EFrz2n6Vv/" target="_blank" class="w-11 h-11 bg-slate-800 hover:bg-blue-600 rounded-2xl flex items-center justify-center transition border border-slate-700" title="فيسبوك"><i class="fa-brands fa-facebook"></i></a>
+            </div>
+            <p class="text-xs text-slate-500">&copy; 2026 جميع الحقوق محفوظة لـ مركز ماستر للصيانة.</p>
+        </div>
+    </footer>
+
+    <!-- ADMIN CONTROL PANEL MODAL -->
+    <div id="adminModal" class="fixed inset-0 z-50 hidden bg-slate-950/75 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 custom-scrollbar">
+            <div class="p-6 border-b border-slate-200 flex items-center justify-between sticky top-0 bg-white/95 backdrop-blur-sm z-10">
+                <h3 class="text-xl font-black text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-gear text-amber-500"></i> <span id="adminModalTitle">لوحة تحكم إدارة مركز ماستر</span>
+                </h3>
+                <button onclick="closeAdminModal()" class="text-slate-400 hover:text-slate-600 text-xl font-bold p-2 transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Login View -->
+            <div id="adminLoginView" class="p-8 sm:p-12 space-y-6">
+                <div class="max-w-md mx-auto space-y-4 text-center">
+                    <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-2xl mx-auto font-bold">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <h4 class="font-black text-2xl text-slate-900">تسجيل دخول صاحب المركز</h4>
+                    <p class="text-slate-500 text-xs">أدخل كلمة المرور الخاصة بالإدارة للتحكم الكامل بالموقع.</p>
+                    <form onsubmit="handleAdminLogin(event)" class="space-y-4 text-right pt-2">
+                        <input type="password" id="adminPasswordInput" required class="w-full px-4 py-3.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500 text-center tracking-widest text-lg font-bold" placeholder="كلمة المرور">
+                        <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 rounded-xl text-sm transition shadow-lg">دخول لوحة التحكم</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Dashboard Admin View -->
+            <div id="adminDashboardView" class="p-6 sm:p-8 space-y-8 hidden">
+                <!-- Site Settings -->
+                <div class="space-y-4 bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <h4 class="font-bold text-slate-900 text-base border-b pb-3 border-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-sliders text-amber-500"></i> إعدادات التواصل وتغيير كلمة المرور
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">رقم الواتساب الرئيسي</label>
+                            <input type="text" id="adminPhone" class="w-full px-3 py-2 text-xs rounded-xl border">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">رقم التليجرام</label>
+                            <input type="text" id="adminTelegram" class="w-full px-3 py-2 text-xs rounded-xl border">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">رابط صفحة الفيسبوك</label>
+                            <input type="text" id="adminFacebook" class="w-full px-3 py-2 text-xs rounded-xl border" placeholder="https://facebook.com/...">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">كلمة المرور الجديدة</label>
+                            <input type="password" id="adminNewPass" placeholder="اتركه فارغاً للحفاظ عليها" class="w-full px-3 py-2 text-xs rounded-xl border">
+                        </div>
+                    </div>
+                    <button onclick="saveSiteConfig()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold px-5 py-2.5 rounded-xl text-xs transition">حفظ التغييرات بالإعدادات</button>
+                </div>
+
+                <!-- Store Product Manager -->
+                <div class="space-y-4">
+                    <h4 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                        <i class="fa-solid fa-store text-amber-500"></i> إدارة منتجات المعرض والبيع
+                    </h4>
+                    <form onsubmit="handleAddStoreProduct(event)" class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+                        <p class="text-xs font-bold text-slate-700">إضافة منتج أو جهاز جديد للمبيعات والمعرض</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <input type="text" id="storeProdTitle" required placeholder="اسم الجهاز" class="px-3 py-2 text-xs rounded-lg border">
+                            <input type="number" id="storeProdPrice" required placeholder="السعر (بالجنيه)" class="px-3 py-2 text-xs rounded-lg border">
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <input type="text" id="storeProdCondition" required placeholder="الحالة (جديد / مستعمل بحالة ممتازة)" class="px-3 py-2 text-xs rounded-lg border">
+                            <input type="text" id="storeProdImg" placeholder="رابط صورة المنتج (URL) أو اتركها فارغة" class="px-3 py-2 text-xs rounded-lg border">
+                        </div>
+                        <textarea id="storeProdDesc" required placeholder="الوصف الفني للمنتج..." rows="2" class="w-full px-3 py-2 text-xs rounded-lg border"></textarea>
+                        <button type="submit" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs shadow">إضافة الجهاز للمعرض</button>
+                    </form>
+                    <div id="adminStoreList" class="space-y-2 max-h-52 overflow-y-auto custom-scrollbar"></div>
+                </div>
+
+                <!-- Services Manager -->
+                <div class="space-y-4 pt-4 border-t border-slate-200">
+                    <h4 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                        <i class="fa-solid fa-wrench text-amber-500"></i> إدارة تخصصات الصيانة
+                    </h4>
+                    <form onsubmit="handleAddNewService(event)" class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <input type="text" id="newServTitle" required placeholder="اسم التخصص" class="px-3 py-2 text-xs rounded-lg border">
+                            <input type="text" id="newServIcon" required placeholder="أيقونة FontAwesome مثل fa-solid fa-snowflake" class="px-3 py-2 text-xs rounded-lg border">
+                        </div>
+                        <textarea id="newServDesc" required placeholder="وصف الخدمة والتخصص..." rows="2" class="w-full px-3 py-2 text-xs rounded-lg border"></textarea>
+                        <button type="submit" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs shadow">إضافة خدمة جديدة</button>
+                    </form>
+                    <div id="adminServicesList" class="space-y-2 max-h-48 overflow-y-auto custom-scrollbar"></div>
+                </div>
+
+                <!-- Customer Product Offers Manager -->
+                <div class="space-y-4 pt-4 border-t border-slate-200">
+                    <h4 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                        <i class="fa-solid fa-tag text-amber-500"></i> الطلبات المرسلة من العملاء لبيع أجهزتهم
+                    </h4>
+                    <div id="adminCustomerSellList" class="space-y-3 max-h-60 overflow-y-auto custom-scrollbar"></div>
+                </div>
+
+                <!-- Reviews Manager -->
+                <div class="space-y-4 pt-4 border-t border-slate-200">
+                    <h4 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                        <i class="fa-solid fa-star text-amber-500"></i> إدارة تقييمات العملاء
+                    </h4>
+                    <div id="adminReviewsList" class="space-y-2 max-h-48 overflow-y-auto custom-scrollbar"></div>
+                </div>
+
+                <div class="pt-6 border-t border-slate-200 flex justify-between items-center">
+                    <button onclick="adminLogout()" class="bg-red-500 hover:bg-red-600 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition">تسجيل الخروج</button>
+                    <button onclick="closeAdminModal()" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold px-6 py-2.5 rounded-xl text-sm transition">إغلاق النافذة</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application JavaScript Logic -->
+    <script>
+        let defaultState = {
+            announcement: "مرحباً بكم في مركز ماستر لصيانة الأجهزة الكهربائية والمبيعات - الجبل الأصفر، شارع حرس الحدود",
+            phone: "201107170977",
+            telegram: "01038375150",
+            facebook: "https://www.facebook.com/share/12EFrz2n6Vv/",
+            adminPass: "221982",
+            services: [
+                { 
+                    title: "صيانة الثلاجات والديب فريزر", 
+                    icon: "fa-solid fa-snowflake", 
+                    desc: "فحص الشحن وشحن فريون أصلي R134a و R600a، إصلاح تسريبات الفريون الداخلية والخارجية، تغيير الثرموستات وكروت الانفرتر الرقمية، وعلاج مشاكل تكون الثلج وتوقف التبريد." 
+                },
+                { 
+                    title: "صيانة الغسالات الأوتوماتيك والهاف", 
+                    icon: "fa-solid fa-shirt", 
+                    desc: "صيانة وتحويل كروت التشغيل، تغيير البلي الميكانيكي والمساعدين لمنع الأهتزاز، إصلاح طرمبات الطرد وسحابات المياه وتغيير المساعدين وسير المحرك لجميع الماركات." 
+                },
+                { 
+                    title: "صيانة التكييفات وأجهزة التبريد", 
+                    icon: "fa-solid fa-wind", 
+                    desc: "تنظيف وتعقيم الوحدات الداخلية والخارجية بضغط المياه العالي، معالجة انسداد درين الصرف، فحص كبّاس التبريد وشحن غاز الفريون وكشف التسريب بالليزر." 
+                },
+                { 
+                    title: "صيانة السخانات (غاز وكهرباء)", 
+                    icon: "fa-solid fa-fire", 
+                    desc: "تغيير رداخ السخان، إصلاح مشاكل عدم الاشتعال الذاتي، تنظيف الرواسب الكلسية والشمعات، واستبدال عناصر التسخين (الهيتر) بأصلية وتأمين صمامات الأمان." 
+                },
+                { 
+                    title: "صيانة البوتاجازات والأفران", 
+                    icon: "fa-solid fa-fire-burner", 
+                    desc: "تسليك وحقن فونيات الغاز، إصلاح شوايات الأفران والتايمر، استبدال مفصلات الأبواب وتغيير مفاتيح الاشتعال والفرن مع مراعاة كامل معايير السلامة." 
+                },
+                { 
+                    title: "صيانة الميكروويف والأجهزة الصغيرة", 
+                    icon: "fa-solid fa-bolt", 
+                    desc: "إصلاح وحدة الماجنترون والتسخين، تغيير محولات الضغط العالي، إصلاح اللوحات اللمسية وتأمين حماية الدوائر من الارتفاع المفاجئ للتيار." 
+                }
+            ],
+            storeProducts: [
+                { 
+                    title: "ثلاجة توشيبا 14 قدم مستعملة بحالة الممتاز", 
+                    price: "4500", 
+                    condition: "مستعمل بحالة ممتازة", 
+                    desc: "مفحوصة بالكامل مع تغيير جوان الباب وفحص الفريون، مع ضمان شهر كامل معتمد من مركز ماستر.", 
+                    img: "https://images.unsplash.com/photo-1584568694244-14fbdf83bd30?auto=format&fit=crop&w=600&q=80", 
+                    status: "متوفر" 
+                },
+                { 
+                    title: "غسالة أوتوماتيك زانوسي 7 كيلو", 
+                    price: "3800", 
+                    condition: "مستعمل بحالة جيدة جداً", 
+                    desc: "تم تغيير رولمان البلي بالكامل والصيانة الميكانيكية الشاملة وهي جاهزة للعمل مباشرة.", 
+                    img: "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?auto=format&fit=crop&w=600&q=80", 
+                    status: "متوفر" 
+                },
+                { 
+                    title: "تكييف شارب 1.5 حصان بارد/ساخن", 
+                    price: "8200", 
+                    condition: "مستعمل بحالة الفابريقة", 
+                    desc: "مفحوص ومغسول بالكامل، كباس فابريقة مع شحن فريون أصلي وضمان 3 أشهر من المركز.", 
+                    img: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80", 
+                    status: "متوفر" 
+                }
+            ],
+            customerProducts: [],
+            reviews: [
+                { author: "أحمد مصطفى - الجبل الأصفر", rating: 5, text: "خدمة ممتازة وسريعة جداً، وصل المهندس للمنزل في نفس اليوم وصلح الثلاجة وغير القطعة التالفة وأعطاني شهادة ضمان.", date: "2026-03-20" },
+                { author: "المهندس محمد إبراهيم", rating: 5, text: "تعامل راقي وشفافية بالغة في تحديد أسعار قطع الغيار الأصلية. أنصح بشدة بالتعامل مع مركز ماستر.", date: "2026-03-18" },
+                { author: "أم خالد", rating: 5, text: "اشتريت غسالة مستعملة من المعرض بحالة ممتازة جداً وبسعر مناسب ومفحوصة بدون أي مشاكل.", date: "2026-03-15" }
+            ]
+        };
+
+        let appData = JSON.parse(localStorage.getItem('masterCenterData')) || defaultState;
+        if(!appData.adminPass) appData.adminPass = "221982";
+        if(!appData.facebook) appData.facebook = "https://www.facebook.com/share/12EFrz2n6Vv/";
+        if(!appData.storeProducts || appData.storeProducts.length === 0) appData.storeProducts = defaultState.storeProducts;
+        if(!appData.services || appData.services.length === 0) appData.services = defaultState.services;
+        if(!appData.customerProducts) appData.customerProducts = [];
+
+        let isAdminLoggedIn = false;
+        let uploadedImageBase64 = "";
+
+        function saveData() {
+            localStorage.setItem('masterCenterData', JSON.stringify(appData));
+            updateUI();
+        }
+
+        function switchPage(pageId) {
+            document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
+            const target = document.getElementById('page-' + pageId);
+            if(target) target.classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-amber-400', 'bg-slate-800/90', 'shadow-sm');
+                btn.classList.add('text-slate-300');
+            });
+            const activeBtn = document.getElementById('nav-' + pageId);
+            if(activeBtn) {
+                activeBtn.classList.remove('text-slate-300');
+                activeBtn.classList.add('text-amber-400', 'bg-slate-800/90', 'shadow-sm');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        }
+
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedImageBase64 = e.target.result;
+                    document.getElementById('imagePreview').src = uploadedImageBase64;
+                    document.getElementById('uploadPlaceholder').classList.add('hidden');
+                    document.getElementById('imagePreviewContainer').classList.remove('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleProductSubmission(e) {
+            e.preventDefault();
+            const name = document.getElementById('sellerName').value;
+            const phone = document.getElementById('sellerPhone').value;
+            const title = document.getElementById('productTitle').value;
+            const condition = document.getElementById('productCondition').value;
+            const price = document.getElementById('productPrice').value;
+            const address = document.getElementById('sellerAddress').value;
+            const desc = document.getElementById('productDesc').value;
+
+            const newCustProd = {
+                name, phone, title, condition, price, address, desc,
+                img: uploadedImageBase64 || "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80",
+                date: new Date().toISOString().split('T')[0]
+            };
+
+            appData.customerProducts.unshift(newCustProd);
+            saveData();
+
+            const message = `السلام عليكم مركز ماستر، أرغب في عرض جهاز للبيع لدينا:%0A%0A` +
+                `👤 *اسم البائع:* ${name}%0A` +
+                `📞 *رقم التواصل:* ${phone}%0A` +
+                `📦 *اسم الجهاز:* ${title}%0A` +
+                `⚙️ *حالة الجهاز:* ${condition}%0A` +
+                `💰 *السعر المطلوب:* ${price} جنيه%0A` +
+                `📍 *العنوان:* ${address}%0A` +
+                `📝 *تفاصيل:* ${desc}`;
+
+            const waUrl = `https://wa.me/${appData.phone}?text=${message}`;
+            window.open(waUrl, '_blank');
+            alert('تم تسجيل عرض جهازك بنجاح وتحويلك مباشرة لمحادثة إدارة المركز عبر الواتساب!');
+            e.target.reset();
+            uploadedImageBase64 = "";
+            document.getElementById('uploadPlaceholder').classList.remove('hidden');
+            document.getElementById('imagePreviewContainer').classList.add('hidden');
+        }
+
+        function openAdminModal() {
+            document.getElementById('adminModal').classList.remove('hidden');
+            if(isAdminLoggedIn) {
+                document.getElementById('adminLoginView').classList.add('hidden');
+                document.getElementById('adminDashboardView').classList.remove('hidden');
+                document.getElementById('adminModalTitle').innerText = "لوحة تحكم صاحب المركز";
+            } else {
+                document.getElementById('adminLoginView').classList.remove('hidden');
+                document.getElementById('adminDashboardView').classList.add('hidden');
+                document.getElementById('adminModalTitle').innerText = "تسجيل دخول صاحب المركز";
+            }
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').classList.add('hidden');
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const pass = document.getElementById('adminPasswordInput').value;
+            if(pass === appData.adminPass) {
+                isAdminLoggedIn = true;
+                document.getElementById('adminLoginView').classList.add('hidden');
+                document.getElementById('adminDashboardView').classList.remove('hidden');
+                document.getElementById('adminModalTitle').innerText = "لوحة تحكم صاحب المركز";
+                document.getElementById('adminBtnText').innerText = "لوحة التحكم (نشط)";
+                document.getElementById('adminPasswordInput').value = '';
+                updateAdminDashboard();
+            } else {
+                alert('كلمة المرور غير صحيحة!');
+            }
+        }
+
+        function adminLogout() {
+            isAdminLoggedIn = false;
+            document.getElementById('adminBtnText').innerText = "لوحة التحكم";
+            openAdminModal();
+        }
+
+        function saveSiteConfig() {
+            appData.phone = document.getElementById('adminPhone').value;
+            appData.telegram = document.getElementById('adminTelegram').value;
+            appData.facebook = document.getElementById('adminFacebook').value;
+            const newPass = document.getElementById('adminNewPass').value;
+            if(newPass.trim() !== '') {
+                appData.adminPass = newPass;
+                alert('تم تغيير كلمة المرور بنجاح!');
+                document.getElementById('adminNewPass').value = '';
+            }
+            saveData();
+            alert('تم حفظ الإعدادات بنجاح!');
+        }
+
+        function handleAddStoreProduct(e) {
+            e.preventDefault();
+            const title = document.getElementById('storeProdTitle').value;
+            const price = document.getElementById('storeProdPrice').value;
+            const condition = document.getElementById('storeProdCondition').value;
+            let img = document.getElementById('storeProdImg').value;
+            const desc = document.getElementById('storeProdDesc').value;
+
+            if(!img) img = "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80";
+
+            appData.storeProducts.unshift({ title, price, condition, img, desc, status: "متوفر" });
+            saveData();
+            e.target.reset();
+            alert('تمت إضافة المنتج للمعرض بنجاح!');
+        }
+
+        function deleteStoreProduct(index) {
+            if(confirm('هل أنت متأكد من حذف هذا المنتج من المعرض؟')) {
+                appData.storeProducts.splice(index, 1);
+                saveData();
+            }
+        }
+
+        function toggleProductStatus(index) {
+            appData.storeProducts[index].status = appData.storeProducts[index].status === "متوفر" ? "تم البيع" : "متوفر";
+            saveData();
+        }
+
+        function handleAddNewService(e) {
+            e.preventDefault();
+            const title = document.getElementById('newServTitle').value;
+            const icon = document.getElementById('newServIcon').value;
+            const desc = document.getElementById('newServDesc').value;
+            appData.services.push({ title, icon, desc });
+            saveData();
+            e.target.reset();
+            alert('تمت إضافة الخدمة بنجاح!');
+        }
+
+        function deleteService(index) {
+            if(confirm('هل أنت متأكد من حذف هذه الخدمة؟')) {
+                appData.services.splice(index, 1);
+                saveData();
+            }
+        }
+
+        function approveCustomerProduct(index) {
+            const p = appData.customerProducts[index];
+            appData.storeProducts.unshift({
+                title: p.title + " (مستعمل)",
+                price: p.price,
+                condition: p.condition,
+                img: p.img,
+                desc: p.desc + " - البائع: " + p.name + " (" + p.phone + ")",
+                status: "متوفر"
+            });
+            appData.customerProducts.splice(index, 1);
+            saveData();
+            alert('تم نقل المنتج وعرضه في مبيعات المعرض بنجاح!');
+        }
+
+        function deleteCustomerProduct(index) {
+            if(confirm('هل تريد حذف هذا الطلب؟')) {
+                appData.customerProducts.splice(index, 1);
+                saveData();
+            }
+        }
+
+        function handleNewReview(e) {
+            e.preventDefault();
+            const author = document.getElementById('reviewAuthor').value;
+            const rating = parseInt(document.getElementById('reviewRating').value);
+            const text = document.getElementById('reviewText').value;
+            const date = new Date().toISOString().split('T')[0];
+
+            appData.reviews.unshift({ author, rating, text, date });
+            saveData();
+            e.target.reset();
+            alert('شكراً لك! تم إضافة تقييمك بنجاح.');
+        }
+
+        function deleteReview(index) {
+            if(confirm('حذف هذا التقييم؟')) {
+                appData.reviews.splice(index, 1);
+                saveData();
+            }
+        }
+
+        function handleBooking(e) {
+            e.preventDefault();
+            const name = document.getElementById('bookName').value;
+            const phone = document.getElementById('bookPhone').value;
+            const appliance = document.getElementById('bookAppliance').value;
+            const details = document.getElementById('bookDetails').value;
+
+            const msg = `مرحباً مركز ماستر، أرغب في حجز موعد صيانة منزلية:%0A- الاسم: ${name}%0A- الهاتف: ${phone}%0A- الجهاز: ${appliance}%0A- التفاصيل: ${details}`;
+            window.open(`https://wa.me/${appData.phone}?text=${msg}`, '_blank');
+        }
+
+        function updateUI() {
+            document.getElementById('announcementText').innerText = appData.announcement;
+            document.getElementById('displayPhone').innerText = "+" + appData.phone;
+            document.getElementById('displayTelegram').innerText = appData.telegram;
+
+            const waLink = "https://wa.me/" + appData.phone;
+            document.getElementById('heroWhatsappDirect').href = waLink;
+            document.getElementById('sellDirectWhatsapp').href = waLink;
+            document.getElementById('contactWhatsappBtn').href = waLink;
+            document.getElementById('contactWhatsappLinkCard').href = waLink;
+            document.getElementById('floatingWhatsapp').href = waLink;
+            document.getElementById('footerWhatsapp').href = waLink;
+
+            const tgLink = "https://t.me/+" + appData.telegram;
+            document.getElementById('contactTelegramBtn').href = tgLink;
+            document.getElementById('footerTelegram').href = tgLink;
+
+            const fbLink = appData.facebook || "https://www.facebook.com/share/12EFrz2n6Vv/";
+            document.getElementById('contactFacebookBtn').href = fbLink;
+            document.getElementById('footerFacebook').href = fbLink;
+
+            // Render Services Logic
+            let homeServicesHTML = '', fullServicesHTML = '';
+            appData.services.forEach((serv, i) => {
+                const serviceCard = `
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 hover:shadow-xl transition-all duration-300 flex flex-col justify-between space-y-4 group">
+                        <div class="space-y-4">
+                            <div class="w-14 h-14 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-2xl font-black group-hover:bg-amber-500 group-hover:text-slate-950 transition-colors">
+                                <i class="${serv.icon}"></i>
+                            </div>
+                            <h3 class="font-bold text-xl text-slate-900">${serv.title}</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed">${serv.desc}</p>
+                        </div>
+                        <button onclick="switchPage('contact')" class="text-amber-600 hover:text-amber-700 font-bold text-xs flex items-center gap-1.5 pt-2 border-t border-slate-100">
+                            طلب صيانة لهذا الجهاز <i class="fa-solid fa-arrow-left text-[10px]"></i>
+                        </button>
+                    </div>
+                `;
+                if(i < 3) homeServicesHTML += serviceCard;
+                fullServicesHTML += serviceCard;
+            });
+            document.getElementById('homeServicesGrid').innerHTML = homeServicesHTML;
+            document.getElementById('fullServicesGrid').innerHTML = fullServicesHTML;
+
+            // Render Store Products Logic
+            let storeHTML = '', homeStoreHTML = '';
+            if(appData.storeProducts.length === 0) {
+                storeHTML = '<div class="col-span-3 text-center py-12 text-slate-400">لا توجد منتجات معروضة حالياً في المعرض.</div>';
+                homeStoreHTML = storeHTML;
+            } else {
+                appData.storeProducts.forEach((prod, i) => {
+                    const isAvailable = prod.status === "متوفر";
+                    const productCard = `
+                        <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-lg transition-all">
+                            <div>
+                                <div class="relative h-52 overflow-hidden bg-slate-100">
+                                    <img src="${prod.img}" alt="${prod.title}" class="w-full h-full object-cover">
+                                    <span class="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold shadow ${isAvailable ? 'bg-emerald-500 text-white' : 'bg-red-500 text-white'}">${prod.status}</span>
+                                </div>
+                                <div class="p-6 space-y-3">
+                                    <span class="text-xs font-bold text-amber-600 bg-amber-50 px-3 py-1 rounded-lg border border-amber-200">${prod.condition}</span>
+                                    <h3 class="font-bold text-lg text-slate-900 leading-snug">${prod.title}</h3>
+                                    <p class="text-slate-600 text-xs leading-relaxed line-clamp-2">${prod.desc}</p>
+                                    <p class="text-2xl font-black text-slate-900">${prod.price} <span class="text-xs font-normal text-slate-500">جنيه</span></p>
+                                </div>
+                            </div>
+                            <div class="p-6 pt-0">
+                                <a href="https://wa.me/${appData.phone}?text=مرحباً، أرغب في الاستفسار وشراء منتج: ${prod.title} - بسعر: ${prod.price} جنيه" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 transition shadow">
+                                    <i class="fa-brands fa-whatsapp text-base"></i> احجز/استفسر عبر الواتساب
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                    storeHTML += productCard;
+                    if(i < 3) homeStoreHTML += productCard;
+                });
+            }
+            document.getElementById('storeProductsGrid').innerHTML = storeHTML;
+            document.getElementById('homeStoreGrid').innerHTML = homeStoreHTML;
+
+            // Render Reviews Logic
+            let reviewsHTML = '';
+            appData.reviews.forEach((rev) => {
+                reviewsHTML += `
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-bold text-slate-900 text-base">${rev.author}</h4>
+                            <span class="text-amber-500 text-sm tracking-wider">${'⭐'.repeat(rev.rating)}</span>
+                        </div>
+                        <p class="text-slate-600 text-sm leading-relaxed">${rev.text}</p>
+                        <span class="text-slate-400 text-[11px] block" dir="ltr">${rev.date}</span>
+                    </div>
+                `;
+            });
+            document.getElementById('dynamicReviewsList').innerHTML = reviewsHTML;
+            document.getElementById('reviewsCountBadge').innerText = appData.reviews.length + ' تقييم';
+
+            if(isAdminLoggedIn) updateAdminDashboard();
+        }
+
+        function updateAdminDashboard() {
+            document.getElementById('adminPhone').value = appData.phone;
+            document.getElementById('adminTelegram').value = appData.telegram;
+            document.getElementById('adminFacebook').value = appData.facebook || "https://www.facebook.com/share/12EFrz2n6Vv/";
+
+            let storeAdminHTML = '';
+            appData.storeProducts.forEach((p, idx) => {
+                storeAdminHTML += `
+                    <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 text-xs">
+                        <div class="flex items-center gap-3">
+                            <img src="${p.img}" class="w-10 h-10 object-cover rounded-lg border">
+                            <div>
+                                <span class="font-bold block text-slate-900">${p.title}</span>
+                                <span class="text-slate-500">${p.price} ج - ${p.status}</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="toggleProductStatus(${idx})" class="bg-blue-100 hover:bg-blue-200 text-blue-700 px-3 py-1 rounded-lg font-bold transition">تغيير الحالة</button>
+                            <button onclick="deleteStoreProduct(${idx})" class="text-red-500 hover:text-red-700 font-bold p-1 transition"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById('adminStoreList').innerHTML = storeAdminHTML;
+
+            let servAdminHTML = '';
+            appData.services.forEach((s, idx) => {
+                servAdminHTML += `
+                    <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 text-xs">
+                        <div class="flex items-center gap-2">
+                            <i class="${s.icon} text-amber-500"></i>
+                            <span class="font-bold text-slate-900">${s.title}</span>
+                        </div>
+                        <button onclick="deleteService(${idx})" class="text-red-500 hover:text-red-700 font-bold p-1"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                `;
+            });
+            document.getElementById('adminServicesList').innerHTML = servAdminHTML;
+
+            let custSellHTML = '';
+            if(appData.customerProducts.length === 0) {
+                custSellHTML = '<p class="text-xs text-slate-400">لا توجد طلبات شراء جديدة من العملاء حالياً.</p>';
+            } else {
+                appData.customerProducts.forEach((cp, idx) => {
+                    custSellHTML += `
+                        <div class="bg-white p-4 rounded-2xl border border-slate-200 space-y-2 text-xs">
+                            <div class="flex justify-between font-bold">
+                                <span class="text-slate-900">${cp.title} (${cp.condition})</span>
+                                <span class="text-emerald-600 font-black">${cp.price} جنيه</span>
+                            </div>
+                            <p class="text-slate-600">البائع: ${cp.name} | الهاتف: ${cp.phone} | العنوان: ${cp.address}</p>
+                            <p class="text-slate-500">التفاصيل: ${cp.desc}</p>
+                            <div class="flex gap-2 pt-2">
+                                <button onclick="approveCustomerProduct(${idx})" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg font-bold shadow">عرض في المعرض</button>
+                                <button onclick="deleteCustomerProduct(${idx})" class="bg-red-100 text-red-600 hover:bg-red-200 px-3 py-1.5 rounded-lg font-bold">رفض وحذف</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            document.getElementById('adminCustomerSellList').innerHTML = custSellHTML;
+
+            let revAdminHTML = '';
+            appData.reviews.forEach((r, idx) => {
+                revAdminHTML += `
+                    <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 text-xs">
+                        <div>
+                            <span class="font-bold text-slate-900">${r.author}:</span> <span class="text-slate-600">${r.text}</span>
+                        </div>
+                        <button onclick="deleteReview(${idx})" class="text-red-500 hover:text-red-700 font-bold p-1"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                `;
+            });
+            document.getElementById('adminReviewsList').innerHTML = revAdminHTML;
+        }
+
+        window.onload = updateUI;
+    </script>
+</body>
+</html>
